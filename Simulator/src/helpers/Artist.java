@@ -1,23 +1,34 @@
 package helpers;
 
+import static helpers.Constants.BLOCKSIZE;
+import static helpers.Constants.HEIGHT;
+import static helpers.Constants.SIDEBAR;
+import static helpers.Constants.TOOLBAR;
+import static helpers.Constants.WIDTH;
+import static helpers.Constants.mapHeight;
+import static helpers.Constants.mapWidth;
 import static org.lwjgl.opengl.GL11.*;
 
+import java.awt.Font;
 import java.io.IOException;
 import java.io.InputStream;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
 
 public class Artist {
+	
+	//TrueTypeFont font;
 
-	public static final int WIDTH = 1900, HEIGHT = 1000, BLOCKSIZE = 64,
-			SIDEBAR = 128, TOOLBAR = 128;
-	public static int mapHeight, mapWidth;
-
+	
+	static Font awtFont;
+	static TrueTypeFont font;
 	public static void BeginSession() {
 		Display.setTitle("Game");
 		try {
@@ -28,6 +39,8 @@ public class Artist {
 		}
 
 		calcSize();
+		awtFont = new Font("Arial", Font.PLAIN, 14);
+		font = new TrueTypeFont(awtFont, false);
 
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
@@ -47,6 +60,15 @@ public class Artist {
 		glEnd();
 	}
 
+	public static void drawLine(int x, int y, int width){					//WIP
+		glLineWidth(5);
+		glColor3f(1f, 1f, 1f);
+		glBegin(GL_LINES);
+		glVertex2f(x, y);
+		glVertex2f(x + width, y);
+		glEnd();
+		
+	}
 	public static void drawQuadTex(Texture tex, int x, int y, int width,
 			int height) {
 		tex.bind();
@@ -80,6 +102,9 @@ public class Artist {
 		return tex;
 	}
 
+	public static void drawText(int x, int y, String text){
+		font.drawString(x, y, text, Color.white);
+	}
 	public static int toLoc(int n) {
 		if (n < 0) {
 			return -1;
@@ -95,6 +120,14 @@ public class Artist {
 	public static void calcSize() {
 		mapHeight = (int) Math.floor((HEIGHT - TOOLBAR) / BLOCKSIZE) + 1;
 		mapWidth = (int) Math.floor((WIDTH - SIDEBAR) / BLOCKSIZE);
+	}
+	
+	public static void drawBar(int x, int y, int max, int val){
+		glColor4f(1, 0, 0, 1);
+		drawQuad(x, y, SIDEBAR, 32);
+		glColor4f(1.0f, 0, 0.0f, 1);
+		drawQuad(x + 1, y + 1, SIDEBAR - 2, 32 - 2);
+		
 	}
 
 }

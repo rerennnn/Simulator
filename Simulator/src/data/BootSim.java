@@ -1,35 +1,46 @@
 package data;
 
 import static helpers.Artist.BeginSession;
+import helpers.Clock;
 import helpers.InputController;
 
 import org.lwjgl.LWJGLException;
-import org.lwjgl.opengl.*;
+import org.lwjgl.opengl.Display;
+
+import bars.Sidebar;
+import bars.Toolbar;
 public class BootSim {
-	
+	static TileGrid grid;
 	public BootSim() throws LWJGLException{			//All throws LWJGL Exeptions because of keyboard.create() in inputcontroller
-		System.out.println("1");
+		Clock c = new Clock(1);
 		BeginSession();
-		System.out.println("2");
-		//drawQuad(100, 100, 50, 50);
+
+
 		Toolbar tb = new Toolbar();
 		Sidebar sb = new Sidebar();
-		TileGrid grid = new TileGrid();
+		grid = new TileGrid();
+
 		InputController ic = new InputController();
 		ic.init();
+		grid.draw();
 		while(!Display.isCloseRequested()){
 			//System.out.println("update");
+			//grid.update();
+			c.update();
 			grid.draw();
-			sb.draw();
 			tb.draw();
+			sb.draw();
+
 			ic.update();
 			Display.update();
-			Display.sync(30);
+			Display.sync(60);
 		}
 		
 	}
 	
-
+	public static void updateClock(){
+		grid.update();
+	}
 
 	public static void main(String[] args) throws LWJGLException {
 		// TODO Auto-generated method stub

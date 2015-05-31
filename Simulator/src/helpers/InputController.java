@@ -1,16 +1,15 @@
 package helpers;
 
 import static helpers.Artist.*;
-import static data.Toolbar.*;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 
+import bars.Toolbar;
 import data.TileGrid;
-import data.Toolbar;
-
+import static helpers.Constants.*;
 public class InputController {
 
 	int xLoc, yLoc, xC, yC;
@@ -36,17 +35,22 @@ public class InputController {
 		}
 		
 		while(Mouse.next()){
-			if(Mouse.isButtonDown(0)){
+			if(Mouse.isButtonDown(0) || Mouse.isButtonDown(1) ){
+				int button = Mouse.isButtonDown(1) ? 1 : 0;
 				//System.out.println(Mouse.getX() + " " + Mouse.getY());	//Mouse in-frame coords
 				xLoc = toLoc((Mouse.getX() - SIDEBAR));						//calc block x location of click
 				yLoc = toLoc(HEIGHT - (Mouse.getY()));						//calc block y location of click
 				xC = Mouse.getX();
 				yC = Mouse.getY();											//save mouse coords
 				if(xLoc>=0 && yLoc < mapHeight && yLoc >= 0){				// if block locations are withing array
-					TileGrid.click(xLoc, yLoc);								//execute click on block x,y
+					if(button == 0){
+						TileGrid.click(xLoc, yLoc, Toolbar.selected);								//execute click on block x,y
+					}else if(button == 1){
+						TileGrid.rClick(xLoc, yLoc);
+					}
 				}
 				else {
-					System.out.println("Not in field");
+					//System.out.println("Not in field");
 					if(yLoc >= mapHeight){
 						Toolbar.click(xC, yC);
 					}
