@@ -21,7 +21,7 @@ public class Toolbar {
 	static Button[] buttons = new Button[10];
 	DecimalFormat f = new DecimalFormat("##.00");
 	public Toolbar() {
-	
+		//initialize buttons
 		buttons[0] = new Button(ButtonType.Road, 96, 16);
 		buttons[1] = new Button(ButtonType.House, 176, 16);
 		buttons[2] = new Button(ButtonType.Destroy, 16, 16);
@@ -38,27 +38,28 @@ public class Toolbar {
 				- (BLOCKSIZE * mapHeight));
 		glColor3f(1f, 1f, 1f);
 		if(selected != null && lastSelected != selected){
-		drawText(8, HEIGHT - 32, "Cost: $" + String.valueOf(f.format(selected.cost)));
+		drawText(8, HEIGHT - 32, "Cost: $" + String.valueOf(f.format(selected.cost)));		//cost of selected
 		drawText(8, HEIGHT - 16, "Weekly cost: $" + String.valueOf(selected.weekly));}
+		
 		for (int i = 0; i < buttons.length; i++) {
 			// System.out.println(buttons[i]);
 			if (buttons[i] != null) {
-				buttons[i].draw(SIDEBAR, mapHeight * BLOCKSIZE - 16);
+				buttons[i].draw(SIDEBAR, mapHeight * BLOCKSIZE - 16);			//draw buttons
 			}
 		}
 	}
 
 	public static void click(int x, int y) { // Loop through buttons to find if
-												// one is clicked
+												// one is on clicklocation
 
 		for (int i = 0; i < buttons.length; i++) {
 
 			if (buttons[i] != null) {
 
-				int bx = buttons[i].x + SIDEBAR;
-				int by = buttons[i].y + BLOCKSIZE;
+				int bx = buttons[i].x + SIDEBAR;		//correct for sidebar
+				int by = buttons[i].y + BLOCKSIZE;		//down is lower coords, should start at bottom
 
-				if (clickedIn(bx, by, x, y)) {
+				if (clickedIn(bx, by, x, y)) {			//if clicked in range
 
 					selected = buttons[i].bType; // set selected button to
 													// clicked button type
@@ -71,8 +72,7 @@ public class Toolbar {
 	private static boolean clickedIn(int bx, int by, int mx, int my) { // Button and mouse x and y
 
 		boolean bool = false;
-		// System.out.println(bx + " " + by + " " + (bx + 64) + " " + (by - 64)
-		// + " " + mx + " " + my);
+		
 		if (bx <= mx && (bx + 64) > mx && by > my // If within button range
 				&& ((by - 64) < my)) {
 			bool = true;

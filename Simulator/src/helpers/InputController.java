@@ -29,7 +29,7 @@ public class InputController {
 	public void update(){
 		while(Keyboard.next()){
 			
-			if(Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)){
+			if(Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)){ 	//quit game on [ESC]
 				Display.destroy();
 			}
 		}
@@ -42,17 +42,18 @@ public class InputController {
 				yLoc = toLoc(HEIGHT - (Mouse.getY()));						//calc block y location of click
 				xC = Mouse.getX();
 				yC = Mouse.getY();											//save mouse coords
-				if(xLoc>=0 && yLoc < mapHeight && yLoc >= 0){				// if block locations are withing array
-					if(button == 0){
-						TileGrid.click(xLoc, yLoc, Toolbar.selected);								//execute click on block x,y
-					}else if(button == 1){
-						TileGrid.rClick(xLoc, yLoc);
+				if(xLoc>=0 && yLoc < mapHeight && yLoc >= 0){				// if block locations are within array
+					if(button == 0){										//left mouse button
+						TileGrid.click(xLoc, yLoc, Toolbar.selected);		//execute click on block x,y
+					}else if(button == 1){									//right =mouse button
+						TileGrid.rClick(xLoc, yLoc);						//excecute right click on block
 					}
 				}
 				else {
-					//System.out.println("Not in field");
+					
 					if(yLoc >= mapHeight){
-						Toolbar.click(xC, yC);
+						Toolbar.click(xC, yC);								//if not on playing field, try to click on toolbar
+																			//sidebar has no buttons
 					}
 				}
 			}

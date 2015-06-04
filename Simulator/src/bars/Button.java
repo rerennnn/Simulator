@@ -6,6 +6,10 @@ import org.newdawn.slick.opengl.Texture;
 
 import data.BlockType;
 public class Button {
+	
+	/*
+	 *  The buttons used on the toolbar, with the BlockType.class they represent as type, as well as x and y coords
+	 */
 
 	Texture texture = null;
 	String action;
@@ -13,6 +17,7 @@ public class Button {
 	public int y;
 	ButtonType type;
 	public BlockType bType;
+	
 	public Button(ButtonType type,int x,int y){
 		this.type = type;
 		this.action = type.action;

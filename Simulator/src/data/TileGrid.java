@@ -13,53 +13,54 @@ public class TileGrid {
 		map = new Block[mapWidth][mapHeight];
 		System.out.println("map");
 		System.out.println(map.length + " " + map[1].length);
-		for (int i = 0; i < map.length; i++) { // Loop x array
-			// System.out.println("I");
-			for (int j = map[i].length - 1; j >= 0; j--) { // Loop y array
+		for (int i = 0; i < map.length; i++) {				 // Loop x array
+			
+			for (int j = map[i].length - 1; j >= 0; j--) {	 // Loop y array
 
-				map[i][j] = new Block(i + toLoc(SIDEBAR), j, BlockType.Plot);
-				// System.out.println(i + " " + j + " " + BlockType.Plot.type);
+				map[i][j] = new Block(i + toLoc(SIDEBAR), j, BlockType.Plot);		//create empty grid, aka full of plots
+				
 			}
 		}
 	}
 
-	public static void rClick(int x, int y) {
+	public static void rClick(int x, int y) {		//right clicked on block
 		Block block = map[x][y];
-		Sidebar.display(block);
-		// System.out.println("right clicked & loaded");
+		Sidebar.display(block);		//set the to be displayed information to this block's info
+		
 	}
 
 	public static void click(int x, int y, BlockType type) {
 
-		if (type == null) { // if blocktype selected
+		if (type == null) { 							// if any blocktype selected
 			System.out.println("Select a Block ");
 
-		} else if (map[x][y].myType == BlockType.Plot) { // if block is
-			if (Player.money > type.cost) { // buildable
+		} else if (map[x][y].myType == BlockType.Plot) { 		// if block is buildable on
+			if (Player.money > type.cost) { 					// and has enough money
 				switch (type) {
 
 				case Road:
-					map[x][y] = new Block(x + toLoc(SIDEBAR), y, type);
+					map[x][y] = new Block(x + toLoc(SIDEBAR), y, type);			//just place road
 					break;
 
 				default:
 					if (getRoad(x, y)) {
-						map[x][y] = new Block(x + toLoc(SIDEBAR), y, type);
+						map[x][y] = new Block(x + toLoc(SIDEBAR), y, type);		//first check if next to road for all buildings
 					}
 					break;
 				}
-				Player.money -= type.cost;
+				Player.money -= type.cost;										//get money for building
 			}
-		} else if (map[x][y].myType != BlockType.Plot && type == BlockType.Plot) {
-			if (Player.money >= type.cost) {
-				map[x][y] = new Block(x + toLoc(SIDEBAR), y, type);
-				Player.money -= type.cost;
+			
+		} else if (map[x][y].myType != BlockType.Plot && type == BlockType.Plot) {	//if block is not buildable, and destroy function is selected
+			if (Player.money >= type.cost) {										//enough money
+				map[x][y] = new Block(x + toLoc(SIDEBAR), y, type);					//erase block
+				Player.money -= type.cost;											//pay
 			}
 		}
 
 	}
 
-	public static boolean getRoad(int x, int y) {
+	public static boolean getRoad(int x, int y) {									// check for road around block, to be updated to method similar to gethappiness in helpers.BlockActions.java
 		boolean bool = false;
 		if (x - 1 >= 0) {
 			if (map[x - 1][y] != null) {
@@ -93,7 +94,7 @@ public class TileGrid {
 		return bool;
 	}
 
-	public void update() {
+	public void update() {															//cycle through blocks each time for update() and populate(), in between update Player.java values
 		for (int i = 0; i < map.length; i++) { // Loop x array
 			for (int j = map[i].length - 1; j >= 0; j--) { // Loop y array
 
@@ -117,7 +118,7 @@ public class TileGrid {
 		Player.resetCounts();
 	}
 
-	public void draw() {
+	public void draw() {															//loop through blocks, draw function
 		// System.out.println("draw");
 		for (int i = 0; i < map.length; i++) { // Loop x array
 			for (int j = map[i].length - 1; j >= 0; j--) { // Loop y array

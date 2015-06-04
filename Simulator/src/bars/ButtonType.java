@@ -1,6 +1,9 @@
 package bars;
 
 import data.BlockType;
+/*
+ * Button types enum with the action string acting as texture, blocktype being the block it represents
+ */
 
 public enum ButtonType {
 

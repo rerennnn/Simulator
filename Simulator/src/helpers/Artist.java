@@ -30,18 +30,23 @@ public class Artist {
 	static Font awtFont;
 	static TrueTypeFont font;
 	public static void BeginSession() {
-		Display.setTitle("Game");
+		Display.setTitle("SimCity Basic");
 		try {
-			Display.setDisplayMode(new DisplayMode(WIDTH, HEIGHT));
+			Display.setDisplayMode(new DisplayMode(WIDTH, HEIGHT));		
 			Display.create();
 		} catch (LWJGLException e) {
 			e.printStackTrace();
 		}
 
-		calcSize();
+		calcSize();	// game field size
+		
+		
+		//text fonts
 		awtFont = new Font("Arial", Font.PLAIN, 14);
 		font = new TrueTypeFont(awtFont, false);
-
+		
+		
+		//set GL params
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
 		glOrtho(0, WIDTH, HEIGHT, 0, 1, -1);
@@ -51,7 +56,7 @@ public class Artist {
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	}
 
-	public static void drawQuad(int x, int y, int width, int height) {
+	public static void drawQuad(int x, int y, int width, int height) {		//draw rectangle
 		glBegin(GL_QUADS);
 		glVertex2f(x, y); // top left
 		glVertex2f(x + width, y); // top right
@@ -60,16 +65,8 @@ public class Artist {
 		glEnd();
 	}
 
-	public static void drawLine(int x, int y, int width){					//WIP
-		glLineWidth(5);
-		glColor3f(1f, 1f, 1f);
-		glBegin(GL_LINES);
-		glVertex2f(x, y);
-		glVertex2f(x + width, y);
-		glEnd();
-		
-	}
-	public static void drawQuadTex(Texture tex, int x, int y, int width,
+
+	public static void drawQuadTex(Texture tex, int x, int y, int width,				//draw rectangle with texture
 			int height) {
 		tex.bind();
 		glTranslatef(x, y, 0);
@@ -92,7 +89,7 @@ public class Artist {
 	public static Texture LoadTex(String path) {
 		Texture tex = null;
 		String fileType = "PNG";
-		InputStream in = ResourceLoader.getResourceAsStream("res/" + path
+		InputStream in = ResourceLoader.getResourceAsStream("res/" + path			// only input is file name without extension, only png
 				+ ".png");
 		try {
 			tex = TextureLoader.getTexture(fileType, in);
@@ -102,10 +99,11 @@ public class Artist {
 		return tex;
 	}
 
-	public static void drawText(int x, int y, String text){
+	public static void drawText(int x, int y, String text){							//draw text on location
 		font.drawString(x, y, text, Color.white);
 	}
-	public static int toLoc(int n) {
+	
+	public static int toLoc(int n) {												//coordinates to field location
 		if (n < 0) {
 			return -1;
 		} else {
@@ -113,21 +111,15 @@ public class Artist {
 		}
 	}
 
-	public static int toCoord(int n) {
+	public static int toCoord(int n) {												//field block location to screen coordinates
 		return n * BLOCKSIZE;
 	}
 
 	public static void calcSize() {
-		mapHeight = (int) Math.floor((HEIGHT - TOOLBAR) / BLOCKSIZE) + 1;
-		mapWidth = (int) Math.floor((WIDTH - SIDEBAR) / BLOCKSIZE);
+		mapHeight = (int) Math.floor((HEIGHT - TOOLBAR) / BLOCKSIZE) + 1;			//amount of vertical blocks
+		mapWidth = (int) Math.floor((WIDTH - SIDEBAR) / BLOCKSIZE);					//amount of horizontal blocks
 	}
 	
-	public static void drawBar(int x, int y, int max, int val){
-		glColor4f(1, 0, 0, 1);
-		drawQuad(x, y, SIDEBAR, 32);
-		glColor4f(1.0f, 0, 0.0f, 1);
-		drawQuad(x + 1, y + 1, SIDEBAR - 2, 32 - 2);
-		
-	}
+
 
 }

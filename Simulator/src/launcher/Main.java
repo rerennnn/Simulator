@@ -35,10 +35,10 @@ public class Main {
 		addButtons();
 		addListeners();
 
-		if (isDownloaded()) {
-			String str = getVersion();
-			current.setText(" Current version: " + str);
-			launchButton.setEnabled(true);
+		if (isDownloaded()) {								// if game present on systenm
+			String str = getVersion();						// get current version
+			current.setText(" Current version: " + str);	
+			launchButton.setEnabled(true);					// if downloaded, enable launch
 
 		} else {
 			current.setText("No game has been found, please (re)download.");
@@ -46,7 +46,7 @@ public class Main {
 		
 	}
 
-	static void create() {
+	static void create() {										//create frame and layout
 		frame = new JFrame("Simulator Launcher");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(800, 400);
@@ -61,7 +61,7 @@ public class Main {
 		frame.setVisible(true);
 	}
 
-	static void addButtons() {
+	static void addButtons() {								//create buttons and layout, disable necessary buttons
 		launchButton = new JButton("Launch");
 		launchButton.setEnabled(false);
 		updateCheck = new JButton("Check for updates");
@@ -84,16 +84,16 @@ public class Main {
 	}
 
 	static void addListeners() {
-		launchButton.addActionListener(new ActionListener() {
+		launchButton.addActionListener(new ActionListener() {	//actrionlistener launch game
 			public void actionPerformed(ActionEvent e) {
 
-				if (launcher.FileHandling.runGame()) {
-					frame.dispose();
+				if (launcher.FileHandling.runGame()) {			// if + run game
+					frame.dispose();							// if ran, close this launcher
 				}
 			}
 		});
 		
-		updateCheck.addActionListener(new ActionListener(){
+		updateCheck.addActionListener(new ActionListener(){		//actionlistener to check for updates for the game
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -105,21 +105,21 @@ public class Main {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				update.setText(" Available version: "  + ver);
+				update.setText(" Available version: "  + ver);	//update latest version text
 				updateButton.setEnabled(true);
 			}
 			
 		});
 		
-		updateButton.addActionListener(new ActionListener(){
+		updateButton.addActionListener(new ActionListener(){	//action listener for updating the game button
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
 				current.setText(" Downloading... ");
-				String ver = "Failed to download";
+				String ver = "Failed to download";				// if downloading fails, this will be return string
 				try {
-					ver = downloadLatest();
+					ver = downloadLatest();						// download latest + return version
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -133,7 +133,7 @@ public class Main {
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
-					launchButton.setEnabled(true);
+					launchButton.setEnabled(true);			//enable launch button if it wasnt yet, because of no version available
 				}
 			}
 			

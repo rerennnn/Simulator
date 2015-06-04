@@ -21,25 +21,25 @@ public class BootSim {
 		grid = new TileGrid();
 
 		InputController ic = new InputController();
-		ic.init();
-		grid.draw();
-		while(!Display.isCloseRequested()){
-			//System.out.println("update");
-			//grid.update();
-			c.update();
-			grid.draw();
-			tb.draw();
-			sb.draw();
+		ic.init();							//initialize inputcontroller
+		grid.draw();						//draw grid for first time
+		while(!Display.isCloseRequested()){	//while game is running
 
-			ic.update();
-			Display.update();
-			Display.sync(60);
+			c.update();						//update clock	
+			grid.draw();					//draw gamegrid
+			tb.draw();						//draw toolbar
+			sb.draw();						//draw sidebar
+
+			ic.update();					//update inputcontroller, poll for input changes
+			
+			Display.update();				//refresh display
+			Display.sync(60);				//sync to this fps
 		}
 		
 	}
 	
 	public static void updateClock(){
-		grid.update();
+		grid.update();						//called from Clock.java, will update grid every n seconds
 	}
 
 	public static void main(String[] args) throws LWJGLException {
