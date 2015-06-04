@@ -110,7 +110,7 @@ public class FileHandling {
 	}
 
 	static void updateLocal(String ver) throws IOException {	
-		String str = null;
+	
 		BufferedWriter writer = null;
 		String current = System.getProperty("user.dir");
 		try {
